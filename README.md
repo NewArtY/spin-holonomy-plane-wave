@@ -1,12 +1,22 @@
 # Net electron spin rotation in a plane-wave pulse — code and data
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21758393.svg)](https://doi.org/10.5281/zenodo.21758393)
+
 Computational supplement to
 
 > N. S. Akintsov, A. P. Nevecheria, S. N. Andreev, Q.-H. Qin,
 > *Net electron spin rotation in a plane-wave pulse: Holonomy set by the
 > anomalous magnetic moment*,
 > submitted to **Physical Review A** (Regular Article).
-> Zenodo DOI: **to be inserted on deposit** — cite this deposit, not this file.
+
+Cite this deposit, not this file. The badge above carries the *concept* DOI
+[10.5281/zenodo.21758393](https://doi.org/10.5281/zenodo.21758393), which always
+resolves to the latest release. Every release also has its own version DOI,
+shown on its own Zenodo record; that is the one the article cites, so that a
+reader gets the exact code the published numbers came from.
+
+Repository: <https://github.com/NewArtY/spin-holonomy-plane-wave>
+Release history: [`CHANGELOG.md`](CHANGELOG.md)
 
 This directory contains everything needed to reproduce every number quoted in
 the article and in its Supplemental Material, and to redraw FIG. 1, FIG. 2,

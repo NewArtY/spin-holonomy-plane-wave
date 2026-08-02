@@ -2,10 +2,11 @@
 # Columns: sha256, size in bytes, path relative to code/.
 # Regenerate with `python reproduce_all.py --manifest`,
 # check with   `python reproduce_all.py --verify`.
-# files: 72
+# files: 73
 253b6de7376be839a29eea48fca1ec5378c86c355972757a1527d9e387956ff7  2687  .gitignore
+4bdb0fe5d015eb0ab0aa654c16dd7bbdf3e790d678e52641c317fe4f7405e56d  1842  CHANGELOG.md
 26e7e7fe50525a07405670630b74bb46662d80aa835509cbb6be8b591eed132a  1115  LICENSE
-4404e94d4504925a62d7d6935e46ff56d188c808d3197238c349b186f073d541  14744  README.md
+b5c40a22205a2aced213a22825b79d3b81d3bd8da7e3612d66be8d01a3855fb0  15257  README.md
 5ede1c1aa2ce584def47bcd6db0f9082c0cec5d6d20cd345769016dd53de1b57  233958  figproofs/fig1.png
 c38ccfc0ae3f79c1909ecc151b09e7e6af202f8c0cc1035ce285c2a93821f528  205464  figproofs/fig2.png
 c7ede81b28ec1cb18fcfebe0331965be85f85d487cd397efbf99f43ab22760cf  206747  figproofs/figS1.png
