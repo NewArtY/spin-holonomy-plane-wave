@@ -1,0 +1,44 @@
+[ref] DOP853 rtol=1e-10 : 51.28 ms, nfev=953
+C:\Users\artio\Documents\Scientific work\Физика\Статьи\2026.07\PRA_25\bench\bench_pinn.py:73: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  hist.append((it, float(L)))
+  adam      0  L=3.410e+01  res=1.27e-01 H=6.30e-04 sym=1.37e+00 ic=3.40e-01
+  adam    100  L=3.758e-01  res=1.04e-01 H=9.71e-04 sym=1.35e+00 ic=7.84e-06
+  adam    200  L=6.334e-01  res=1.03e-01 H=7.92e-04 sym=1.33e+00 ic=6.57e-07
+  adam    300  L=8.887e-01  res=1.09e-01 H=7.01e-04 sym=1.30e+00 ic=4.39e-07
+  adam    400  L=1.133e+00  res=1.32e-01 H=9.71e-04 sym=1.25e+00 ic=7.83e-07
+  adam    500  L=1.218e+00  res=2.13e-01 H=4.97e-03 sym=1.00e+00 ic=4.06e-06
+  adam    600  L=1.213e+00  res=2.53e-01 H=7.89e-03 sym=9.52e-01 ic=4.74e-06
+  adam    700  L=1.209e+00  res=2.82e-01 H=1.04e-02 sym=9.17e-01 ic=5.56e-06
+  adam    800  L=1.206e+00  res=3.01e-01 H=1.22e-02 sym=8.92e-01 ic=6.08e-06
+  adam    900  L=1.203e+00  res=3.13e-01 H=1.34e-02 sym=8.76e-01 ic=6.40e-06
+  adam    999  L=1.200e+00  res=3.27e-01 H=1.47e-02 sym=8.58e-01 ic=6.75e-06
+  lbfgs  closures=170  L=5.262e-01 res=2.40e-01 H=6.31e-02 sym=2.23e-01 ic=2.93e-06
+{
+  "tag": "short_probe",
+  "ablation": "full",
+  "n_params": 66691,
+  "adam_iters": 1000,
+  "lbfgs_iters": 150,
+  "lbfgs_closures": 170,
+  "ncol": 512,
+  "width": 128,
+  "depth": 5,
+  "threads": 4,
+  "seed": 0,
+  "t_adam_s": 82.80824389999907,
+  "t_lbfgs_s": 15.519064099993557,
+  "t_total_s": 105.53608970000641,
+  "ms_per_adam_iter": 82.80824389999907,
+  "ms_per_lbfgs_closure": 91.28861235290327,
+  "t_ref_ivp_s": 0.05128010000044014,
+  "ivp_nfev": 953,
+  "peak_rss_mb": 0.0,
+  "max_abs_theta": 0.9755602227938847,
+  "max_abs_p": 1.6731437261131568,
+  "max_abs_Sigma": 0.376709798903343,
+  "max_abs_all": 1.6731437261131568,
+  "l2_rel_all": 3.5774302927023545,
+  "dSigma_pinn": 0.15096730469080122,
+  "dSigma_ref": -0.22577954045612675
+}

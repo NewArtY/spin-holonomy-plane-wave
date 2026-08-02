@@ -1,0 +1,7 @@
+torch.float32    N=1         fwd=     256.1 us (   0.52 GFLOP/s)   res-loss fwd+bwd=    7.410 ms
+torch.float32    N=10        fwd=     288.1 us (   4.58 GFLOP/s)   res-loss fwd+bwd=    6.202 ms
+torch.float32    N=100       fwd=     435.7 us (  30.32 GFLOP/s)   res-loss fwd+bwd=    9.402 ms
+torch.float32    N=1000      fwd=    1703.2 us (  77.56 GFLOP/s)   res-loss fwd+bwd=   23.174 ms
+torch.float32    N=10000     fwd=   20018.4 us (  65.99 GFLOP/s)   res-loss fwd+bwd=  336.501 ms
+torch.float32    N=100000    fwd=  208233.2 us (  63.44 GFLOP/s)   res-loss fwd+bwd= 2362.223 ms
+written batch_f32.json

@@ -1,0 +1,5 @@
+serial: 128 points in 3.08 s => 24.09 ms/point
+  workers=1: startup= 0.88 s  wall=  3.96 s (speedup 0.78x)  compute-only=  3.09 s (amortized speedup 1.00x)
+  workers=2: startup= 0.96 s  wall=  2.68 s (speedup 1.15x)  compute-only=  1.72 s (amortized speedup 1.79x)
+  workers=4: startup= 1.09 s  wall=  2.17 s (speedup 1.42x)  compute-only=  1.08 s (amortized speedup 2.85x)
+written mp.json

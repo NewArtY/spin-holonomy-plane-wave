@@ -1,0 +1,111 @@
+# ===========================================================================
+#  Computational package for
+#  "Net electron spin rotation in a plane-wave pulse:
+#   Holonomy set by the anomalous magnetic moment"
+#
+#  READ BEFORE ADDING RULES
+#  ------------------------
+#  Computed results are part of this repository, not build clutter:
+#
+#      *.json          numerical results quoted in the paper
+#      *.log           run records that accompany them
+#      figproofs/      raster proofs of the four figures
+#      MANIFEST.sha256 checksums covering all of the above
+#
+#  All of these are listed in MANIFEST.sha256 and are checked by
+#  `python reproduce_all.py --verify`. A blanket `*.log` or `*.json` rule
+#  would silently break that check for anyone who clones this repository.
+#  Do not add one.
+#
+#  Only two directories hold regenerable output: __pycache__/ and quickrun/.
+#  Both are already excluded from the manifest by reproduce_all.py.
+# ===========================================================================
+
+# --- Python bytecode and extensions ----------------------------------------
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+.Python
+
+# --- virtual environments (whatever the IDE or shell calls them) -----------
+.venv/
+venv/
+env/
+ENV/
+.env
+.virtualenv/
+pyvenv.cfg
+
+# --- output of `reproduce_all.py --quick` ----------------------------------
+quickrun/
+
+# --- packaging, testing and type-checking caches ---------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# --- JetBrains: PyCharm, IntelliJ IDEA, CLion, DataSpell -------------------
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# --- Visual Studio Code / VSCodium -----------------------------------------
+.vscode/
+*.code-workspace
+.history/
+
+# --- Spyder ----------------------------------------------------------------
+.spyderproject
+.spyproject
+
+# --- Jupyter / IPython -----------------------------------------------------
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# --- Sublime Text ----------------------------------------------------------
+*.sublime-project
+*.sublime-workspace
+
+# --- Eclipse / PyDev -------------------------------------------------------
+.project
+.pydevproject
+.settings/
+
+# --- Vim, Emacs, Kate, Nano and other editors ------------------------------
+*~
+*.swp
+*.swo
+*.bak
+*.orig
+\#*\#
+.\#*
+.kateproject
+.kateproject.d/
+
+# --- operating-system clutter ----------------------------------------------
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# --- archives accidentally produced while preparing the Zenodo upload ------
+*.zip
+*.tar
+*.tar.gz
+*.7z

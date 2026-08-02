@@ -1,0 +1,38 @@
+{
+  "env": {
+    "python": "3.13.2",
+    "torch": "2.12.0+cpu",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "cuda": false,
+    "threads": 4,
+    "cpu": "Intel64 Family 6 Model 60 Stepping 3, GenuineIntel",
+    "machine": "AMD64",
+    "os": "Windows-10-10.0.19045-SP0"
+  },
+  "params": {
+    "E0": 0.5,
+    "omega": 6.283185307179586,
+    "tau_p": 0.6,
+    "phi0": 0.0,
+    "g": 2.002319304,
+    "kT": 0.6,
+    "tau_cut": 2.0
+  },
+  "result": {
+    "adam": 3000,
+    "lbfgs_closures": 210,
+    "ncol": 256,
+    "width": 128,
+    "depth": 5,
+    "t_adam_s": 52.69557039999927,
+    "t_lbfgs_s": 5.44542449999426,
+    "ms_per_adam_iter": 17.56519013333309,
+    "ms_per_lbfgs_closure": 25.930592857115524,
+    "final_res": 6.439844807154582e-05,
+    "max_abs_all": 0.002116250291965188,
+    "l2_rel_all": 0.004085198832534961,
+    "dSigma_pinn": -0.227019753498739,
+    "dSigma_ref": -0.22577954045612675
+  }
+}

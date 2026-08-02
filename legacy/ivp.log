@@ -1,0 +1,26 @@
+=== 1. solve_ivp DOP853, single trajectory, vs tolerance ===
+  rtol=1e-06     4.395 ms  nfev=   266 steps=   18  |err|_end=8.97e-09
+  rtol=1e-08     9.367 ms  nfev=   494 steps=   32  |err|_end=5.21e-11
+  rtol=1e-10    14.214 ms  nfev=   794 steps=   54  |err|_end=2.16e-12
+  rtol=1e-12    25.825 ms  nfev=  1286 steps=   93  |err|_end=2.72e-14
+
+=== 2. fixed-step RK4 / symplectic-4 (python loop) ===
+  n=   500  RK4    21.27 ms err=6.02e-11   SYMP4     7.53 ms err=2.19e-03
+  n=  1000  RK4    36.93 ms err=3.73e-12   SYMP4    14.77 ms err=1.10e-03
+  n=  2000  RK4    71.07 ms err=2.34e-13   SYMP4    28.15 ms err=5.48e-04
+  n=  5000  RK4   178.69 ms err=1.25e-14   SYMP4    70.62 ms err=2.19e-04
+  n= 10000  RK4   349.51 ms err=7.47e-15   SYMP4   154.58 ms err=1.10e-04
+
+=== 3. sweep cost (serial) ===
+  64 random (phi0,tau_p,E0) points serial: 1.90 s => 29.75 ms/point  <nfev>=1890
+
+=== 4. multiprocessing scaling (max 4 workers) ===
+  workers=1:    3.25 s  speedup vs serial= 0.59x
+  workers=2:    1.93 s  speedup vs serial= 0.99x
+  workers=4:    1.91 s  speedup vs serial= 1.00x
+
+=== 5. solve_ivp cost vs state dimension (S3 proxy) ===
+  ndim=  3     19.36 ms  nfev=   566
+  ndim=  8     22.08 ms  nfev=   614
+  ndim= 20     28.40 ms  nfev=   698
+written ivp.json

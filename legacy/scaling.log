@@ -1,0 +1,43 @@
+=== A. dtype (5x128, ncol=2048, full loss, 4 threads) ===
+dtype=torch.float64                             343.57 ms/iter  params=66691
+dtype=torch.float32                             173.60 ms/iter  params=66691
+
+=== B. loss-term breakdown (5x128, ncol=2048, f64) ===
+loss=res+ic only                                103.19 ms/iter  params=66691
+loss=res+ic+H                                   141.41 ms/iter  params=66691
+loss=res+ic+sym                                 297.56 ms/iter  params=66691
+loss=full                                       357.65 ms/iter  params=66691
+
+=== C. collocation points (5x128, f64, full loss) ===
+ncol=256                                         57.50 ms/iter  params=66691
+ncol=512                                         88.04 ms/iter  params=66691
+ncol=1024                                       183.34 ms/iter  params=66691
+ncol=2048                                       393.68 ms/iter  params=66691
+ncol=4096                                       729.98 ms/iter  params=66691
+ncol=8192                                      1520.54 ms/iter  params=66691
+
+=== D. width (depth=5, ncol=2048, f64, full loss) ===
+width=32                                         69.90 ms/iter  params=4387
+width=64                                        144.61 ms/iter  params=16963
+width=128                                       404.24 ms/iter  params=66691
+width=256                                       982.55 ms/iter  params=264451
+
+=== E. depth (width=128, ncol=2048, f64, full loss) ===
+depth=3                                         216.49 ms/iter  params=33667
+depth=4                                         292.77 ms/iter  params=50179
+depth=5                                         374.40 ms/iter  params=66691
+depth=6                                         464.30 ms/iter  params=83203
+depth=8                                         645.01 ms/iter  params=116227
+
+=== F. threads (5x128, ncol=2048, f64, full loss) ===
+threads=1                                       541.92 ms/iter  params=66691
+threads=2                                       477.43 ms/iter  params=66691
+threads=4                                       488.75 ms/iter  params=66691
+threads=8                                       492.73 ms/iter  params=66691
+
+=== G. residual-only (cheap ablation), f32, thin nets ===
+f32 4x64 ncol=1024 res-only                      12.98 ms/iter  params=12803
+f32 4x64 ncol=2048 res-only                      21.94 ms/iter  params=12803
+f32 5x128 ncol=1024 res-only                     28.89 ms/iter  params=66691
+
+written scaling.json

@@ -1,0 +1,25 @@
+# Environment actually used to produce the deposited JSON files and figures.
+# Windows 10 Pro 22H2 (10.0.19045), CPython 3.13.2 (64-bit, MSVC v1942).
+#
+# The pins below are the versions installed on that machine, checked with
+#   python -c "import numpy,scipy,matplotlib,sympy;print(numpy.__version__, ...)"
+# Nothing in the code uses a feature newer than numpy 1.24 / scipy 1.10 /
+# matplotlib 3.6, so older releases will run; only the last digits of the
+# round-off floors depend on the exact build.
+#
+#   python >= 3.9   (3.13.2 used)
+
+numpy==2.4.4
+scipy==1.17.1
+matplotlib==3.10.9
+
+# sympy is used by focused_beam.py only, to derive and verify the
+# Lax-Louisell-McKnight field expansion symbolically before it is evaluated.
+sympy==1.14.0
+
+# NOT required for anything in this directory.  torch 2.12.0+cpu was installed
+# on the same machine and is needed only by legacy/bench_pinn.py,
+# legacy/bench_batch.py and legacy/bench_ansatz.py, which belong to a discarded
+# line of work (see legacy/README.md).  Install it only if you want to re-run
+# those:
+#   torch==2.12.0

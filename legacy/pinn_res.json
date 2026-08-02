@@ -1,0 +1,50 @@
+{
+  "env": {
+    "python": "3.13.2",
+    "torch": "2.12.0+cpu",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "cuda": false,
+    "threads": 4,
+    "cpu": "Intel64 Family 6 Model 60 Stepping 3, GenuineIntel",
+    "machine": "AMD64",
+    "os": "Windows-10-10.0.19045-SP0"
+  },
+  "params": {
+    "E0": 0.5,
+    "omega": 6.283185307179586,
+    "tau_p": 0.6,
+    "phi0": 0.0,
+    "g": 2.002319304,
+    "kT": 0.6,
+    "tau_cut": 2.0
+  },
+  "result": {
+    "tag": "res_probe",
+    "ablation": "res",
+    "n_params": 66691,
+    "adam_iters": 2000,
+    "lbfgs_iters": 300,
+    "lbfgs_closures": 357,
+    "ncol": 512,
+    "width": 128,
+    "depth": 5,
+    "threads": 4,
+    "seed": 0,
+    "t_adam_s": 54.37437820000923,
+    "t_lbfgs_s": 14.019578100007493,
+    "t_total_s": 69.79165270000522,
+    "ms_per_adam_iter": 27.187189100004616,
+    "ms_per_lbfgs_closure": 39.27052689077729,
+    "t_ref_ivp_s": 0.01730590000806842,
+    "ivp_nfev": 953,
+    "peak_rss_mb": 0.0,
+    "max_abs_theta": 0.14577920050406956,
+    "max_abs_p": 0.11943030581504735,
+    "max_abs_Sigma": 0.11643192651664624,
+    "max_abs_all": 0.14577920050406956,
+    "l2_rel_all": 0.3684986853288494,
+    "dSigma_pinn": -0.30162159577541653,
+    "dSigma_ref": -0.22577954045612675
+  }
+}

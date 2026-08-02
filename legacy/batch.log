@@ -1,0 +1,6 @@
+torch.float64    N=1         fwd=     236.9 us (   0.56 GFLOP/s)   res-loss fwd+bwd=    6.860 ms
+torch.float64    N=10        fwd=     368.2 us (   3.59 GFLOP/s)   res-loss fwd+bwd=    6.862 ms
+torch.float64    N=100       fwd=     590.0 us (  22.39 GFLOP/s)   res-loss fwd+bwd=   10.483 ms
+torch.float64    N=1000      fwd=    2976.3 us (  44.38 GFLOP/s)   res-loss fwd+bwd=   48.047 ms
+torch.float64    N=10000     fwd=   34208.4 us (  38.62 GFLOP/s)   res-loss fwd+bwd=  550.933 ms
+torch.float64    N=100000    fwd=  312611.3 us (  42.26 GFLOP/s)   res-loss fwd+bwd= 4130.353 ms

@@ -1,0 +1,28 @@
+  adam      0  res=2.246e-01
+  adam    300  res=7.303e-02
+  adam    600  res=5.362e-02
+  adam    900  res=1.784e-02
+  adam   1200  res=1.652e-03
+  adam   1500  res=6.044e-04
+  adam   1800  res=3.984e-04
+  adam   2100  res=2.959e-04
+  adam   2400  res=2.549e-04
+  adam   2700  res=2.097e-04
+  adam   2999  res=1.911e-04
+  lbfgs closures=210  res=5.795e-05
+{
+  "adam": 3000,
+  "lbfgs_closures": 210,
+  "ncol": 256,
+  "width": 128,
+  "depth": 5,
+  "t_adam_s": 52.69557039999927,
+  "t_lbfgs_s": 5.44542449999426,
+  "ms_per_adam_iter": 17.56519013333309,
+  "ms_per_lbfgs_closure": 25.930592857115524,
+  "final_res": 6.439844807154582e-05,
+  "max_abs_all": 0.002116250291965188,
+  "l2_rel_all": 0.004085198832534961,
+  "dSigma_pinn": -0.227019753498739,
+  "dSigma_ref": -0.22577954045612675
+}
