@@ -160,7 +160,11 @@ python reproduce_all.py --manifest   # regenerate it after an intentional change
 ```
 
 `MANIFEST.sha256` lists the SHA-256 digest and the size of every deposited file
-in `code/`, excluding the generated trees `__pycache__/` and `quickrun/`.
+in `code/`. Two kinds of directory are left out: trees this package generates
+itself (`__pycache__/`, `quickrun/`), and trees that belong to you rather than
+to the deposit — a virtual environment, an IDE project directory, a
+version-control database. So `.venv/` inside `code/`, which is where most IDEs
+put one by default, does not make `--verify` fail.
 `--verify` reports every file that is changed, missing or unexpected, and exits
 nonzero if any are. Run it after downloading the archive and before running
 anything: it is the only way to tell a truncated or edited copy from the
