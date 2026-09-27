@@ -2,68 +2,43 @@
 r"""
 make_fig1.py -- FIG. 1 of
 "Net electron spin rotation in a plane-wave pulse: Holonomy set by the
-anomalous magnetic moment" (Physical Review A, Regular Article).
+anomalous magnetic moment" (Physical Review D): geometry of the curve C traced
+by the transverse vector potential in the polarization plane, and of its
+signed area.
 
-WHAT THE FIGURE SHOWS
----------------------
-Main panel: the measured net spin rotation |Theta_net| of every pulse
-configuration against the signed area A swept by the vector potential, with the
-holonomy law of Eq. (10),
-
-    Theta_net = -(1/2) a_e^2 A,
-
-overlaid as a solid line with no fitted parameter.  The x axis is symmetric-log,
-so both helicities (A > 0 and A < 0) are on the same panel and the two families
-with A = 0 have a place to sit; the line therefore appears as a "V" whose vertex
-is at A = 0.  The two open families are the ones the law predicts to vanish
-identically: linear polarisation, and the zero-area curve a_y ~ a_x^2 traced out
-and back.  They are drawn at their MEASURED magnitude.
-
-VERTICAL RANGE -- FIXED 2026-08-02
-----------------------------------
-The earlier version of this script clipped the panel at ylim = 2e-13.  That
-removed 32 of the 42 zero-area points from the figure, i.e. it hid exactly the
-evidence the figure exists to present: the smallest measured floor is
-4.07e-17 rad, the largest 9.95e-12 rad.  The panel now runs from 1e-17 to 0.3 rad
-and every point of the deposit is on it.  The cost is a vertical range of 17.7
-decades, which is paid for by putting the inset, the colour bar and the legend
-into the empty band between the null floor (below 1e-11) and the signal (above
-1e-5) -- a band that is empty because the separation between the two is eleven
-orders of magnitude, which is itself the result.
-
-The solid line is drawn only over the range of |A| that was actually measured
-(0.33 to 1294), so that it does not run down into the column of null points and
-suggest a comparison that is not being made: for those families the law predicts
-zero exactly, not a small number.
-
-COLOUR
+PANELS
 ------
-The colour of every filled symbol is the effective ellipticity |delta| of the
-pulse, 0 for linear and 1 for circular.  For the polarisation-gated family,
-whose instantaneous ellipticity sweeps through the pulse, the colour is the
-ellipticity |(1-q)/(1+q)| of the residual net circular component, q being the
-amplitude ratio of the two counter-rotating pulses.  The colour carries no
-information beyond the parameters of the scan; it is there to show that the
-collapse onto the line is not driven by polarisation.
+(a) Why an area appears.  A small rectangular loop in the (a_x, a_y) plane.
+    Along each leg the connection of Eq. (7) rotates the rest-frame spin about
+    the in-plane axis  nhat x da_perp  (dashed arrows), i.e. da_perp turned by
+    +90 deg about nhat.  Rotations about different axes do not commute, and the
+    closed loop leaves a rotation about nhat through -a_e^2 times the enclosed
+    area (second-order group commutator; the sign is the one of Eq. (10)).
+(b) An elliptically polarized Gaussian pulse (delta = 0.5, N = 1, a0 = 1, CEP
+    0), drawn with the pulse parameterization of Eq. (S2).  The curve leaves
+    the origin, spirals out and back in, and closes by Eq. (1).  Grey levels
+    are the winding number ell(x) of C about each point; the signed area is
+    counted with that multiplicity, and  A = 2 * integral(ell d^2a).  The script
+    checks this against the line integral A = int (a_x a_y' - a_y a_x') d eta
+    and against the closed form delta/(1+delta^2) a0^2 sigma sqrt(pi).
+(c) Linear polarization: C degenerates to a segment traced back and forth,
+    A = 0.
+(d) The zero-area family of the numerical scan, a_x = a0 h, a_y = a0 h^2
+    with h the Gaussian envelope (class FigureEight in holonomy_scan.py): a
+    parabolic arc traced out and back, A = 0.
 
-Inset: the ratio Theta_net/Theta_law, Theta_law = -(1/2) a_e^2 A, for a flat-top
-circularly polarised pulse against x = a_e a0, together with the resummation of
-Eq. (12), (sqrt(1+x^2)-1)/(x^2/2).  It shows where the leading-order law starts
-to lose accuracy: the expansion parameter is a_e a0, not a_e.
-
-DATA
-----
-code/holonomy_scan.json, stages `main`, `null`, `inset`
-(produced by `python holonomy_scan.py`).  Nothing in this script computes
-physics; it only reads and draws.
+Unlike the other figure scripts this one reads no data file: every curve is
+computed here from the pulse formulas, and the signed area of panel (b) is
+checked three ways before anything is drawn (the script stops if they
+disagree).  The figure is produced by code only (APS forbids generative-AI
+artwork) and passes the lettering/line-width audit of plotstyle.py.
 
 Usage
-    python make_fig1.py --data holonomy_scan.json --outdir ../manuscript
+    python make_fig1.py --outdir ../manuscript
 """
 from __future__ import annotations
 
 import argparse
-import json
 import math
 import os
 
@@ -71,172 +46,221 @@ import numpy as np
 
 import plotstyle as ps
 
-ANO = r"a_{e}"                      # the anomaly, as it is set in the manuscript
+SIG_PER_N = math.pi / math.sqrt(math.log(2.0))   # sigma = 3.7734 N, as in the scan
 
 
-def delta_eff(rec):
-    """Ellipticity used for the colour scale."""
-    if rec["family"] == "gate":                 # two counter-rotating circulars
-        q = rec["p_q"]
-        return abs((1.0 - q) / (1.0 + q))
-    return abs(rec.get("p_delta", 1.0))
+# ----------------------------------------------------------------- pulses
+def elliptical(eta, a0=1.0, N=1.0, delta=0.5, phi0=0.0):
+    s = SIG_PER_N * N
+    f = np.exp(-eta ** 2 / (2 * s ** 2))
+    nrm = a0 / math.sqrt(1 + delta ** 2)
+    return nrm * f * np.cos(eta + phi0), nrm * delta * f * np.sin(eta + phi0)
 
 
-MARKERS = {          # envelope / shape  ->  (marker, label)
-    "gauss": ("o", r"Gaussian"),
-    "cos2": ("s", r"$\cos^{2}$"),
-    "chirp": ("D", r"chirped"),
-    "gate": ("^", r"gated"),
-}
-# families that are Gaussian-enveloped scans of something else
-AS_GAUSS = ("gauss", "Nscan", "gamma", "cep")
-
-YLO, YHI = 1.0e-17, 0.3             # every measured point is inside this range
+def linear(eta, a0=1.0, N=1.0):
+    s = SIG_PER_N * N
+    f = np.exp(-eta ** 2 / (2 * s ** 2))
+    return a0 * f * np.cos(eta), 0 * eta
 
 
-def build(data):
+def parabola(eta, a0=1.0, N=1.0, curv=1.0):
+    s = SIG_PER_N * N
+    f = np.exp(-eta ** 2 / (2 * s ** 2))
+    return a0 * f, curv * a0 * f ** 2
+
+
+def signed_area(x, y, eta):
+    """A = int (a_x a_y' - a_y a_x') d eta, i.e. twice the signed area."""
+    dx, dy = np.gradient(x, eta), np.gradient(y, eta)
+    return np.trapezoid(x * dy - y * dx, eta)
+
+
+def winding(x, y, gx, gy):
+    """Winding number of the closed polyline (x, y) about every grid point."""
+    w = np.zeros_like(gx)
+    for i in range(len(x) - 1):
+        a1 = np.arctan2(y[i] - gy, x[i] - gx)
+        a2 = np.arctan2(y[i + 1] - gy, x[i + 1] - gx)
+        d = a2 - a1
+        d = (d + np.pi) % (2 * np.pi) - np.pi
+        w += d
+    return np.rint(w / (2 * np.pi))
+
+
+# ------------------------------------------------------------------ drawing
+def arrow_along(ax, x, y, idx, color, size=7):
+    """Direction arrowhead on the curve at sample idx."""
+    ax.annotate("", xy=(x[idx + 1], y[idx + 1]), xytext=(x[idx], y[idx]),
+                arrowprops=dict(arrowstyle="-|>", color=color, lw=0.9,
+                                mutation_scale=size, shrinkA=0, shrinkB=0))
+
+
+def panel_label(ax, s):
+    ax.text(0.03, 0.97, s, transform=ax.transAxes, ha="left", va="top",
+            fontsize=9, fontweight="bold")
+
+
+def build():
     ps.use_style()
     import matplotlib.pyplot as plt
-    from matplotlib.lines import Line2D
-    from matplotlib import cm, colors
 
-    fig = plt.figure(figsize=(ps.COLW, 3.85))
-    ax = fig.add_axes([0.180, 0.092, 0.800, 0.822])
+    fig = plt.figure(figsize=(ps.COLW, 3.40))
+    # 2 x 2 grid, square axes, hand-placed so that nothing is rescaled
+    W, H = fig.get_size_inches()
+    side = 1.33                                    # inches
+    x0, x1 = 0.36 / W, (0.36 + side + 0.33) / W
+    y1, y0 = (H - 0.08 - side) / H, (H - 0.08 - 2 * side - 0.36) / H
+    axa = fig.add_axes([x0, y1, side / W, side / H])
+    axb = fig.add_axes([x1, y1, side / W, side / H])
+    axc = fig.add_axes([x0, y0, side / W, side / H])
+    axd = fig.add_axes([x1, y0, side / W, side / H])
 
-    main, null, ins = data["main"], data["null"], data["inset"]
-    anom = main["anom"]
+    # ------------------------------------------------------------ panel (a)
+    ax = axa
+    L = 1.0
+    corners = [(0, 0), (L, 0), (L, L), (0, L), (0, 0)]
+    ax.fill([0, L, L, 0], [0, 0, L, L], color="#D9D9D9", lw=0, zorder=0)
+    for (xa, ya), (xb, yb) in zip(corners[:-1], corners[1:]):
+        ax.annotate("", xy=(xb, yb), xytext=(xa, ya),
+                    arrowprops=dict(arrowstyle="-|>", color=ps.BLACK, lw=1.0,
+                                    mutation_scale=8, shrinkA=0, shrinkB=0))
+        # rotation axis nhat x da = da turned by +90 deg, drawn from mid-leg
+        mx, my = 0.5 * (xa + xb), 0.5 * (ya + yb)
+        dx, dy = (xb - xa) / L, (yb - ya) / L
+        rx, ry = -dy, dx
+        ax.annotate("", xy=(mx + 0.22 * rx, my + 0.22 * ry), xytext=(mx, my),
+                    arrowprops=dict(arrowstyle="-|>", color=ps.ORANGE, lw=0.9,
+                                    ls=(0, (2.2, 1.4)), mutation_scale=7,
+                                    shrinkA=0, shrinkB=0))
+    ax.text(0.5, 0.5, "area\n" r"$\mathcal{A}/2$", ha="center", va="center",
+            fontsize=8)
+    ax.text(0.5, -0.17, r"$d\mathbf{a}_{\perp}$", ha="center", va="center",
+            fontsize=8, color=ps.BLACK)
+    ax.text(1.04, 0.17, r"$\hat{\mathbf{n}}\times d\mathbf{a}_{\perp}$", ha="left",
+            va="center", fontsize=8, color=ps.ORANGE)
+    ax.set_xlim(-0.40, 1.40)
+    ax.set_ylim(-0.62, 1.40)
+    ax.set_aspect("equal")
+    ax.axis("off")
+    panel_label(ax, "(a)")
+    # propagation direction nhat: out of the page
+    ax.add_patch(plt.Circle((1.22, 1.22), 0.075, fill=False, lw=0.7, color=ps.BLACK))
+    ax.plot([1.22], [1.22], "o", ms=1.6, color=ps.BLACK)
+    ax.text(1.12, 1.22, r"$\hat{\mathbf{n}}$", ha="right", va="center", fontsize=8)
+    ax.text(0.5, -0.45, r"net: $-a_{e}^{2}\mathcal{A}/2$ about $\hat{\mathbf{n}}$",
+            ha="center", va="center", fontsize=8)
 
-    # ---------------------------------------------------------------- theory
-    # Drawn over the measured range of |A| only: outside it the line would run
-    # into the null column, where the prediction is an exact zero.
-    aabs = [abs(r["area"]) for r in main["rows"]]
-    lo, hi = min(aabs), max(aabs) * 1.6
-    aa = np.concatenate([-np.logspace(math.log10(hi), math.log10(lo), 400),
-                         np.logspace(math.log10(lo), math.log10(hi), 400)])
-    ax.plot(aa, 0.5 * anom ** 2 * np.abs(aa), "-", color=ps.BLACK, lw=0.9,
-            zorder=1)
+    # ------------------------------------------------------------ panel (b)
+    ax = axb
+    N, delta = 1.0, 0.5
+    s = SIG_PER_N * N
+    eta = np.linspace(-8 * s, 8 * s, 40001)
+    x, y = elliptical(eta, N=N, delta=delta)
+    A_line = signed_area(x, y, eta)
+    A_closed = delta / (1 + delta ** 2) * s * math.sqrt(math.pi)
+    # winding numbers on a grid (coarse polyline is enough for w)
+    sub = slice(None, None, 20)
+    xs, ys = x[sub], y[sub]
+    xs = np.append(xs, xs[0]); ys = np.append(ys, ys[0])
+    g = np.linspace(-1.0, 1.0, 501)
+    gx, gy = np.meshgrid(g, g)
+    w = winding(xs, ys, gx, gy)
+    cell = (g[1] - g[0]) ** 2
+    A_wind = 2 * w.sum() * cell
+    print(f"panel (b): A line integral = {A_line:.6f}, closed form = "
+          f"{A_closed:.6f}, 2*sum(w)*dA = {A_wind:.4f}, max w = {w.max():.0f}")
+    if not (abs(A_line - A_closed) < 1e-6 * abs(A_closed)
+            and abs(A_wind - A_line) < 2e-2 * abs(A_line)):
+        raise SystemExit("signed-area cross-check failed")
+    WCAP = 3                                   # levels >= 3 share one grey
+    wmax = WCAP
+    wshow = np.minimum(w, WCAP)
+    greys = ["#FFFFFF", "#E3E3E3", "#BDBDBD", "#8F8F8F"]
+    from matplotlib.colors import ListedColormap, BoundaryNorm
+    cmap = ListedColormap(greys[: wmax + 1])
+    norm = BoundaryNorm(np.arange(-0.5, wmax + 1.5), cmap.N)
+    ax.pcolormesh(gx, gy, wshow, cmap=cmap, norm=norm, shading="auto",
+                  rasterized=True, zorder=0)
+    ax.plot(x, y, "-", color=ps.BLUE, lw=0.8, zorder=2)
+    # direction arrows at a few phases on the outer turns
+    for e0 in (-3.2, 0.4, 3.6):
+        i = int(np.searchsorted(eta, e0))
+        arrow_along(ax, x, y, i, ps.BLUE, size=7)
+    ax.plot([0], [0], "o", ms=2.2, color=ps.BLACK, zorder=3)
+    ax.set_xlim(-1.0, 1.0)
+    ax.set_ylim(-1.0, 1.0)
+    ax.set_aspect("equal")
+    ax.set_xticks([-0.8, 0, 0.8]); ax.set_yticks([-0.8, 0, 0.8])
+    ax.set_xlabel(r"$a_{x}$", labelpad=1)
+    ax.set_ylabel(r"$a_{y}$", labelpad=0)
+    panel_label(ax, "(b)")
+    ax.text(0.97, 0.03, rf"$\mathcal{{A}}={A_line:.2f}$", transform=ax.transAxes,
+            ha="right", va="bottom", fontsize=8)
+    # winding-number key
+    for k in range(1, wmax + 1):
+        ax.add_patch(plt.Rectangle((0.58 + 0.13 * (k - 1), 0.84), 0.12, 0.12,
+                                   transform=ax.transAxes, facecolor=greys[k],
+                                   edgecolor=ps.BLACK, lw=0.6, zorder=4))
+        ax.text(0.64 + 0.13 * (k - 1), 0.90, str(k) if k < WCAP else f"{k}+", transform=ax.transAxes,
+                ha="center", va="center", fontsize=8, zorder=5,
+                color="black")
+    ax.text(0.56, 0.90, r"$\ell$", transform=ax.transAxes, ha="right",
+            va="center", fontsize=8)
 
-    # ---------------------------------------------------------------- data
-    norm = colors.Normalize(vmin=0.0, vmax=1.0)
-    cmap = plt.get_cmap("viridis")
+    # ------------------------------------------------------------ panel (c)
+    ax = axc
+    xl, yl = linear(eta, N=N)
+    Al = signed_area(xl, yl, eta)
+    ax.plot(xl, yl, "-", color=ps.BLUE, lw=0.9)
+    ax.annotate("", xy=(0.75, 0.06), xytext=(-0.75, 0.06),
+                arrowprops=dict(arrowstyle="<|-|>", color=ps.BLUE, lw=0.7,
+                                mutation_scale=7))
+    ax.plot([0], [0], "o", ms=2.2, color=ps.BLACK)
+    ax.set_xlim(-1.1, 1.1); ax.set_ylim(-1.1, 1.1)
+    ax.set_aspect("equal")
+    ax.set_xticks([-1, 0, 1]); ax.set_yticks([-1, 0, 1])
+    ax.set_xlabel(r"$a_{x}$", labelpad=1)
+    ax.set_ylabel(r"$a_{y}$", labelpad=0)
+    panel_label(ax, "(c)")
+    ax.text(0.5, 0.25, "linear:\n" r"segment, $\mathcal{A}=0$",
+            transform=ax.transAxes, ha="center", va="center", fontsize=8)
+    print(f"panel (c): A = {Al:.2e}")
 
-    groups = {"gauss": [], "cos2": [], "chirp": [], "gate": []}
-    for r in main["rows"]:
-        key = "gauss" if r["family"] in AS_GAUSS else r["family"]
-        groups[key].append(r)
-
-    for key, rows in groups.items():
-        mk = MARKERS[key][0]
-        x = [r["area"] for r in rows]
-        y = [abs(r["rz"]) for r in rows]
-        c = [cmap(norm(delta_eff(r))) for r in rows]
-        ax.scatter(x, y, s=15 if mk != "D" else 13, marker=mk, c=c,
-                   edgecolors=ps.BLACK, linewidths=ps.MIN_LW_PT, zorder=3)
-
-    # ------------------------------------------------------- the A = 0 sets
-    ylin = [r["theta"] for r in null["linear"]]
-    y8 = [r["theta"] for r in null["fig8"]]
-    ax.scatter(np.zeros(len(ylin)), ylin, s=16, marker="o",
-               facecolors="none", edgecolors=ps.ORANGE, linewidths=0.7, zorder=4)
-    ax.scatter(np.zeros(len(y8)), y8, s=16, marker="s",
-               facecolors="none", edgecolors=ps.BLUE, linewidths=0.7, zorder=4)
-
-    # ---------------------------------------------------------------- axes
-    ax.set_xscale("symlog", linthresh=1.0, linscale=0.40,
-                  subs=[2, 3, 4, 5, 6, 7, 8, 9])
-    ax.set_yscale("log")
-    ax.set_xlim(-4.0e3, 4.0e3)
-    ax.set_ylim(YLO, YHI)
-    ax.set_xlabel(r"signed area $\mathcal{A}=\int(a_xa_y'-a_ya_x')\,d\eta$",
-                  labelpad=1.0)
-    ax.set_ylabel(r"$|\Theta_{\rm net}|$  (rad)", labelpad=1.0)
-    ax.set_xticks([-1e3, -1e1, 0, 1e1, 1e3])
-    ax.set_yticks([1e-16, 1e-14, 1e-12, 1e-10, 1e-8, 1e-6, 1e-4, 1e-2])
-
-    ax.annotate(r"$\mathcal{A}=0$ families:" "\n" "measured floor",
-                xy=(0.522, 0.105), xytext=(0.60, 0.115),
-                xycoords="axes fraction", textcoords="axes fraction",
-                fontsize=ps.MIN_FONT_PT, color=ps.GREY,
-                ha="left", va="center", linespacing=1.15,
-                arrowprops=dict(arrowstyle="->", lw=ps.MIN_LW_PT,
-                                color=ps.GREY, mutation_scale=6))
-
-    # ---------------------------------------------------------------- legend
-    handles = [Line2D([], [], ls="-", lw=0.9, color=ps.BLACK,
-                      label=r"$-\frac{1}{2}" + ANO + r"^{2}\mathcal{A}$")]
-    for key in ("gauss", "cos2", "chirp", "gate"):
-        mk, lab = MARKERS[key]
-        handles.append(Line2D([], [], ls="none", marker=mk, ms=3.2,
-                              mfc=cmap(0.62), mec=ps.BLACK,
-                              mew=ps.MIN_LW_PT, label=lab))
-    handles += [
-        Line2D([], [], ls="none", marker="o", ms=3.4, mfc="none",
-               mec=ps.ORANGE, mew=0.7, label="linear"),
-        Line2D([], [], ls="none", marker="s", ms=3.4, mfc="none",
-               mec=ps.BLUE, mew=0.7, label=r"$a_y\!\propto\!a_x^{2}$"),
-    ]
-    ax.legend(handles=handles, loc="center right", bbox_to_anchor=(1.005, 0.545),
-              ncol=1, borderaxespad=0.0, handletextpad=0.4, labelspacing=0.22)
-
-    # ---------------------------------------------------------------- colourbar
-    cax = fig.add_axes([0.222, 0.136, 0.230, 0.015])
-    sm = cm.ScalarMappable(norm=norm, cmap=cmap)
-    cb = fig.colorbar(sm, cax=cax, orientation="horizontal",
-                      ticks=[0.0, 0.5, 1.0])
-    cb.outline.set_linewidth(ps.MIN_LW_PT)
-    cb.dividers.set_visible(False)      # empty, but matplotlib gives it 0.3 pt
-    cax.tick_params(labelsize=ps.MIN_FONT_PT, length=1.6,
-                    width=ps.MIN_LW_PT, pad=1.2)
-    cax.set_title(r"ellipticity $|\delta|$", fontsize=ps.MIN_FONT_PT, pad=2.0)
-
-    # ---------------------------------------------------------------- inset
-    axi = fig.add_axes([0.302, 0.455, 0.220, 0.146])
-    xs = np.logspace(-2, math.log10(1.3), 300)
-    axi.plot(xs, (np.sqrt(1.0 + xs ** 2) - 1.0) / (0.5 * xs ** 2), "-",
-             color=ps.BLACK, lw=0.8, zorder=1)
-    axi.plot([r["x"] for r in ins["rows"]], [r["ratio"] for r in ins["rows"]],
-             ls="none", marker="o", ms=2.8, mfc=ps.ORANGE, mec=ps.BLACK,
-             mew=ps.MIN_LW_PT, zorder=3)
-    axi.set_xscale("log")
-    axi.set_xlim(1.4e-2, 1.6)
-    axi.set_ylim(0.82, 1.05)
-    axi.set_yticks([0.9, 1.0])
-    axi.set_xticks([1e-2, 1e-1, 1e0])
-    axi.tick_params(labelsize=ps.MIN_FONT_PT, pad=1.2)
-    axi.set_xlabel(ANO.join(("$", r"\,a_0$")), fontsize=ps.MIN_FONT_PT,
-                   labelpad=0.5)
-    axi.set_ylabel(r"$\Theta_{\rm net}/\Theta_{\rm law}$",
-                   fontsize=ps.MIN_FONT_PT, labelpad=1.5)
-    for s in axi.spines.values():
-        s.set_linewidth(ps.MIN_LW_PT)
+    # ------------------------------------------------------------ panel (d)
+    ax = axd
+    xp, yp = parabola(eta, N=N)
+    Ap = signed_area(xp, yp, eta)
+    ax.plot(xp, yp, "-", color=ps.BLUE, lw=0.9)
+    i1 = int(np.searchsorted(eta, -1.2 * s))
+    i2 = int(np.searchsorted(eta, 1.2 * s))
+    ax.annotate("", xy=(xp[i1 + 400] + 0.0, yp[i1 + 400] + 0.07),
+                xytext=(xp[i1] + 0.0, yp[i1] + 0.07),
+                arrowprops=dict(arrowstyle="-|>", color=ps.BLUE, lw=0.8,
+                                mutation_scale=7, shrinkA=0, shrinkB=0))
+    ax.annotate("", xy=(xp[i2 + 400] + 0.0, yp[i2 + 400] - 0.07),
+                xytext=(xp[i2] + 0.0, yp[i2] - 0.07),
+                arrowprops=dict(arrowstyle="-|>", color=ps.BLUE, lw=0.8,
+                                mutation_scale=7, shrinkA=0, shrinkB=0))
+    ax.plot([0], [0], "o", ms=2.2, color=ps.BLACK)
+    ax.set_xlim(-0.35, 1.2); ax.set_ylim(-0.35, 1.2)
+    ax.set_aspect("equal")
+    ax.set_xticks([0, 0.5, 1]); ax.set_yticks([0, 0.5, 1])
+    ax.set_xlabel(r"$a_{x}$", labelpad=1)
+    ax.set_ylabel(r"$a_{y}$", labelpad=0)
+    panel_label(ax, "(d)")
+    ax.text(0.97, 0.03, "out and back:\n" r"$\mathcal{A}=0$",
+            transform=ax.transAxes, ha="right", va="bottom", fontsize=8)
+    print(f"panel (d): A = {Ap:.2e}")
     return fig
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Draw FIG. 1.")
-    ap.add_argument("--data", default="holonomy_scan.json")
     ap.add_argument("--outdir", default=os.path.join("..", "manuscript"))
     ap.add_argument("--png-dir", default="figproofs")
     args = ap.parse_args(argv)
-
-    with open(args.data, encoding="utf-8") as fh:
-        data = json.load(fh)
-    fig = build(data)
-    out = ps.save(fig, "fig1", args.outdir, args.png_dir)
-    m, n = data["main"], data["null"]
-    nulls = [r["theta"] for r in n["linear"]] + [r["theta"] for r in n["fig8"]]
-    print(f"{m['n']} configurations, max relative residual vs the holonomy law: "
-          f"{m['max_rel_resid']:.2e}")
-    print(f"A = 0 families: {len(nulls)} points, floors from {min(nulls):.2e} "
-          f"to {max(nulls):.2e} rad "
-          f"(linear {n['max_theta_linear']:.3e}, "
-          f"figure-eight {n['max_theta_fig8']:.3e})")
-    print(f"points outside the plotted range "
-          f"[{YLO:.0e}, {YHI:.0e}]: "
-          f"{sum(1 for y in nulls if not (YLO <= y <= YHI))}")
-    print(f"inset max deviation from the resummation: "
-          f"{data['inset']['max_dev_from_eq7']:.2e}")
-    for p in out:
+    fig = build()
+    for p in ps.save(fig, "fig1_curve", args.outdir, args.png_dir):
         print("written", p)
 
 

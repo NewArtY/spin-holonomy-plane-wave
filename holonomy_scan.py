@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 r"""
-holonomy_scan.py -- the data set behind FIG. 1 of
+holonomy_scan.py -- the data set behind FIG. 2 of
 "Net electron spin rotation in a plane-wave pulse: Holonomy set by the
-anomalous magnetic moment" (Physical Review A, Regular Article).
+anomalous magnetic moment" (Physical Review D).
 
 QUESTION
 --------
@@ -24,7 +24,7 @@ It is a thin driver on top of spin_magnitude.py, which contains the validated
 plane-wave machinery (exact Volkov orbit, covariant T-BMT right-hand side,
 DOP853 transport of an orthonormal rest-frame triad, rotation vector read off
 the resulting SO(3) matrix).  Nothing of that is re-implemented here; this file
-only adds the pulse shapes that FIG. 1 needs and that spin_magnitude.Pulse does
+only adds the pulse shapes that FIG. 2 needs and that spin_magnitude.Pulse does
 not provide.
 
 PULSE SHAPES ADDED HERE
@@ -46,13 +46,13 @@ FigureEight    a_x = a0 f(eta),  a_y = c a0 f(eta)^2  (no carrier).  The curve i
                a parabolic arc traced out and back, so
                    a_x a_y' - a_y a_x' = c a_x^2 a_x' = (c/3) (a_x^3)'
                integrates to zero EXACTLY.  This is the second null family of
-               FIG. 1: A = 0 with a curve that is not a straight segment, hence a
+               FIG. 2: A = 0 with a curve that is not a straight segment, hence a
                test of the area law and not of the linear-polarisation argument.
 FlatTop        circular polarisation, |a_perp| = a0 on a flat top of length
                2 eta_flat with cos^2 ramps of length L_r on each side.  This is
                the geometry for which Eq. (12) of the main text,
                    Theta_exact = (sqrt(1 + a_e^2 a0^2) - 1) Delta_eta,
-               resums the whole a_e-series; it feeds the inset of FIG. 1.
+               resums the whole a_e-series; it feeds the inset of FIG. 2.
 
 All shapes obey a_perp(+-eta_max) = 0 to machine precision, which is the only
 condition Maxwell imposes on a finite pulse.
@@ -101,7 +101,8 @@ from scipy.integrate import quad
 from spin_magnitude import (ANOM, N_SIGMA_TRUNC, SEED, SIG_PER_N, L_PER_N,
                             Pulse, net_rotation)
 
-A_FIG1 = 1.0e-2          # anomaly used for the main panel of FIG. 1
+A_FIG1 = 1.0e-2          # anomaly used for the main panel of FIG. 2
+                         # (the figure was FIG. 1 up to deposit v1.0.1)
 RTOL = 1.0e-13
 ATOL = 1.0e-16
 

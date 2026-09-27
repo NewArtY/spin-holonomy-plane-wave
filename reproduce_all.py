@@ -6,7 +6,7 @@ every figure of
     "Net electron spin rotation in a plane-wave pulse:
      Holonomy set by the anomalous magnetic moment"
     N. S. Akintsov, A. P. Nevecheria, S. N. Andreev, Q.-H. Qin
-    (Physical Review A, Regular Article)
+    (Physical Review D)
 
 WHAT IT RUNS, IN ORDER
 ----------------------
@@ -15,15 +15,16 @@ WHAT IT RUNS, IN ORDER
                          t6 = integrator-tolerance scan behind TABLE S3
                          t7 = longitudinal spin projection, Delta S_par
   2. holonomy_scan.py    stages main,null,inset,wrap -> holonomy_scan.json
-                         (the (area, rotation) data set of FIG. 1, and the
+                         (the (area, rotation) data set of FIG. 2, and the
                           angle-wrapping case of Sec. S2.3)
   3. focused_beam.py     all ten stages, three JSON files, then merged into
                          focused_beam.json            (focused Gaussian pulse)
   4. indep_check_all.py  the four from-scratch verification scripts
                          -> indep_check.json / .log
-  5. make_fig1.py, make_fig2.py, make_figS1.py, make_figS2.py
+  5. make_fig1.py, make_fig2.py, make_fig3.py, make_figS1.py, make_figS2.py
                          -> ../manuscript/fig*.pdf and fig*.eps, PNG proofs in
-                         ./figproofs
+                         ./figproofs  (make_fig1.py reads no data file: FIG. 1
+                         is computed from the pulse formulas)
 
 WHAT --quick DOES, AND WHAT IT DOES NOT
 ---------------------------------------
@@ -144,7 +145,7 @@ STEPS = [
          "quickrun/sm_t4.json,quickrun/sm_t6.json,quickrun/sm_t7.json",
          "--out", "quickrun/spin_magnitude.json"],
     ]),
-    ("holonomy", "signed-area scan for FIG. 1 (holonomy_scan.py)", [
+    ("holonomy", "signed-area scan for FIG. 2 (holonomy_scan.py)", [
         ["holonomy_scan.py", "--stages", "main,null,inset,wrap",
          "--out", "holonomy_scan.json"],
     ], [
@@ -176,9 +177,18 @@ STEPS = [
         ["indep_check_all.py", "--out", "quickrun/indep_check.json",
          "--log", "quickrun/indep_check.log"],
     ]),
+    ("rr", "radiation reaction and dressed anomaly (rr_ikt_check.py)", [
+        ["rr_ikt_check.py", "--out", "rr_ikt_check.json",
+         "--log", "rr_ikt_check.log"],
+    ], [
+        # a few seconds; runs in full
+        ["rr_ikt_check.py", "--out", "quickrun/rr_ikt_check.json",
+         "--log", "quickrun/rr_ikt_check.log"],
+    ]),
 ]
 
-FIGS = ["make_fig1.py", "make_fig2.py", "make_figS1.py", "make_figS2.py"]
+FIGS = ["make_fig1.py", "make_fig2.py", "make_fig3.py", "make_figS1.py",
+        "make_figS2.py"]
 
 # What the checksum manifest covers.  Two kinds of directory are excluded:
 # trees this package generates itself (__pycache__, quickrun), and trees that
@@ -302,7 +312,7 @@ def main(argv=None):
                          + ",".join(t for t, *_ in STEPS) + ",figs")
     ap.add_argument("--skip", default="", help="same tags, but excluded")
     ap.add_argument("--outdir", default=None,
-                    help="where fig1/fig2/figS1/figS2 .pdf and .eps are written "
+                    help="where the figure .pdf and .eps files are written "
                          "(default: ../manuscript, or ./quickrun with --quick)")
     ap.add_argument("--manifest", action="store_true",
                     help="write MANIFEST.sha256 for the deposit and exit")
@@ -328,9 +338,9 @@ def main(argv=None):
         args.outdir = ("quickrun" if args.quick
                        else os.path.join("..", "manuscript"))
     fig_extra = ([] if not args.quick else ["--png-dir", "quickrun"])
-    fig_data = {
-        "make_fig1.py": "quickrun/holonomy_scan.json",
-        "make_fig2.py": "quickrun/focused_beam.json",
+    fig_data = {             # make_fig1.py takes no --data
+        "make_fig2.py": "quickrun/holonomy_scan.json",
+        "make_fig3.py": "quickrun/focused_beam.json",
         "make_figS1.py": "quickrun/spin_magnitude.json",
         "make_figS2.py": "quickrun/focused_beam.json",
     }
@@ -351,10 +361,11 @@ def main(argv=None):
         times[tag] = sum(run(a, env) for a in (quick if args.quick else full))
 
     if not ((only and "figs" not in only) or "figs" in skip):
-        print("[figs] drawing FIG. 1, 2, S1, S2", flush=True)
+        print("[figs] drawing FIG. 1, 2, 3, S1, S2", flush=True)
         times["figs"] = sum(
             run([f, "--outdir", args.outdir] + fig_extra
-                + (["--data", fig_data[f]] if args.quick else []), env)
+                + (["--data", fig_data[f]]
+                   if args.quick and f in fig_data else []), env)
             for f in FIGS)
 
     print("\n---- wall time ----", flush=True)

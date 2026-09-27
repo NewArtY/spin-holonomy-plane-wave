@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 r"""
-plotstyle.py -- one place for the APS figure conventions used by the four
+plotstyle.py -- one place for the APS figure conventions used by the five
 make_fig*.py scripts of this deposit.
 
 Constraints taken from the APS/REVTeX author guidelines and from
 plan/06-figures-and-tables.md:
 
-  * single-column artwork is 86 mm wide (8.6 cm = one PRA column); the figures
+  * single-column artwork is 86 mm wide (8.6 cm = one column of the APS
+    two-column layout used by Physical Review D); the figures
     are produced at exactly that width and included with
     \includegraphics[width=\columnwidth], so there is no reduction and the
     on-page font size equals the font size set here;
@@ -42,7 +43,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt   # noqa: E402
 
 MM = 1.0 / 25.4
-COLW = 86.0 * MM                  # 86 mm = one PRA column = 3.386 in
+COLW = 86.0 * MM                  # 86 mm = one APS column = 3.386 in
 
 # APS minima, enforced by audit() below.  Do not lower them.
 MIN_FONT_PT = 8.0                 # >= 2 mm cap height at 1:1 reproduction

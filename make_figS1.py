@@ -2,7 +2,7 @@
 r"""
 make_figS1.py -- FIG. S1 of the Supplemental Material of
 "Net electron spin rotation in a plane-wave pulse: Holonomy set by the
-anomalous magnetic moment" (Physical Review A, Regular Article).
+anomalous magnetic moment" (Physical Review D).
 
 WHAT THE FIGURE SHOWS
 ---------------------

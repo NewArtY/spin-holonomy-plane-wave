@@ -1,0 +1,42 @@
+[rr] circular Gaussian, rho = 2.0, N = 2.0, a_e = 0.05, kappa0 = 1
+     A = 53.505948, law -a_e^2 A/2 = -6.688244e-02, no RR: Theta_z = -6.676469501e-02
+     tau0=1.0e-04 leading  rel. change of Theta_z = +5.483e-13  in-plane = 6.069e-07  kappa_f = 0.994631  |du_perp| = 5.864e-07
+     tau0=1.0e-04 schott   rel. change of Theta_z = -4.098e-06  in-plane = 1.317e-07  kappa_f = 1.000000  |du_perp| = 4.651e-14
+     tau0=1.0e-04 full     rel. change of Theta_z = -2.949e-06  in-plane = 6.069e-07  kappa_f = 0.994631  |du_perp| = 5.864e-07
+     tau0=3.0e-04 leading  rel. change of Theta_z = +1.772e-12  in-plane = 1.764e-06  kappa_f = 0.984065  |du_perp| = 1.740e-06
+     tau0=3.0e-04 schott   rel. change of Theta_z = -3.688e-05  in-plane = 1.317e-07  kappa_f = 1.000000  |du_perp| = 4.285e-14
+     tau0=3.0e-04 full     rel. change of Theta_z = -2.626e-05  in-plane = 1.764e-06  kappa_f = 0.984065  |du_perp| = 1.740e-06
+     tau0=1.0e-03 leading  rel. change of Theta_z = +8.037e-12  in-plane = 5.748e-06  kappa_f = 0.948789  |du_perp| = 5.594e-06
+     tau0=1.0e-03 schott   rel. change of Theta_z = -4.098e-04  in-plane = 1.318e-07  kappa_f = 1.000000  |du_perp| = 3.299e-14
+     tau0=1.0e-03 full     rel. change of Theta_z = -2.813e-04  in-plane = 5.751e-06  kappa_f = 0.948789  |du_perp| = 5.594e-06
+     hodograph area A' = 54.915104 = A x 1.026336
+     a_e = 0, kappa0 = 1, tau0 = 1.000e-03, leading: rotvec = (+1.3146e-13, -5.7406e-06, +2.5108e-15), |du_perp| = 5.594e-06, -(1/2)(tau0 kappa)^2 A' = -2.7458e-05
+     a_e = 0, kappa0 = 1, tau0 = 1.000e-03, schott : rotvec = (+3.2483e-15, -1.2248e-12, -2.7458e-05), |du_perp| = 4.489e-14, -(1/2)(tau0 kappa)^2 A' = -2.7458e-05
+     a_e = 0, kappa0 = 1, tau0 = 1.000e-03, full   : rotvec = (+3.1775e-09, -5.7442e-06, -2.6052e-05), |du_perp| = 5.594e-06, -(1/2)(tau0 kappa)^2 A' = -2.7458e-05
+     a_e = 0, kappa0 = 3, tau0 = 3.333e-04, schott : rotvec = (-5.6730e-14, -1.3825e-12, -2.7458e-05), |du_perp| = 3.201e-14, -(1/2)(tau0 kappa)^2 A' = -2.7458e-05
+[ikt] max over CEP of |int d(eta) a_perp' d eta| / (rho d_max), d ~ |a_perp'|^p, rho = max |a_perp|
+     N=0.5  circular    p=1: max 5.658e-01 (CEP 0.000)   (bound 2)
+     N=0.5  circular    p=2: max 8.940e-01 (CEP 0.000)   (bound 2)
+     N=0.5  linear      p=1: max 6.302e-01 (CEP 1.571), even pulse (CEP 0) 2.2e-16   (bound 2)
+     N=0.5  linear      p=2: max 8.798e-01 (CEP 1.571), even pulse (CEP 0) 0.0e+00   (bound 2)
+     N=0.5  elliptical  p=1: max 6.514e-01 (CEP 1.571), even pulse (CEP 0) 2.1e-01   (bound 2)
+     N=0.5  elliptical  p=2: max 9.351e-01 (CEP 1.571), even pulse (CEP 0) 2.6e-01   (bound 2)
+     N=1.0  circular    p=1: max 8.120e-02 (CEP 0.000)   (bound 2)
+     N=1.0  circular    p=2: max 3.016e-01 (CEP 0.000)   (bound 2)
+     N=1.0  linear      p=1: max 7.474e-02 (CEP 1.571), even pulse (CEP 0) 0.0e+00   (bound 2)
+     N=1.0  linear      p=2: max 2.452e-01 (CEP 1.571), even pulse (CEP 0) 2.2e-16   (bound 2)
+     N=1.0  elliptical  p=1: max 7.860e-02 (CEP 1.571), even pulse (CEP 0) 2.8e-02   (bound 2)
+     N=1.0  elliptical  p=2: max 2.652e-01 (CEP 1.571), even pulse (CEP 0) 7.5e-02   (bound 2)
+     N=2.0  circular    p=1: max 3.779e-06 (CEP 0.000)   (bound 2)
+     N=2.0  circular    p=2: max 4.881e-04 (CEP 0.000)   (bound 2)
+     N=2.0  linear      p=1: max 3.276e-06 (CEP 1.571), even pulse (CEP 0) 1.1e-16   (bound 2)
+     N=2.0  linear      p=2: max 3.739e-04 (CEP 1.571), even pulse (CEP 0) 1.1e-16   (bound 2)
+     N=2.0  elliptical  p=1: max 3.451e-06 (CEP 1.571), even pulse (CEP 0) 1.2e-06   (bound 2)
+     N=2.0  elliptical  p=2: max 4.050e-04 (CEP 1.571), even pulse (CEP 0) 1.1e-04   (bound 2)
+     N=4.0  circular    p=1: max 2.577e-16 (CEP 0.000)   (bound 2)
+     N=4.0  circular    p=2: max 7.440e-16 (CEP 0.000)   (bound 2)
+     N=4.0  linear      p=1: max 3.603e-10 (CEP 1.571), even pulse (CEP 0) 5.6e-16   (bound 2)
+     N=4.0  linear      p=2: max 1.445e-15 (CEP 2.356), even pulse (CEP 0) 0.0e+00   (bound 2)
+     N=4.0  elliptical  p=1: max 1.863e-15 (CEP 2.945), even pulse (CEP 0) 2.0e-16   (bound 2)
+     N=4.0  elliptical  p=2: max 1.376e-15 (CEP 2.356), even pulse (CEP 0) 6.2e-16   (bound 2)
+     overall maximum 0.935; at N = 2: 4.88e-04
