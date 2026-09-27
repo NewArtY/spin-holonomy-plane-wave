@@ -2,11 +2,13 @@
 # Columns: sha256, size in bytes, path relative to code/.
 # Regenerate with `python reproduce_all.py --manifest`,
 # check with   `python reproduce_all.py --verify`.
-# files: 78
+# files: 80
+5a88abbdf10251ff592d66e433b825d8cea6d80a7fa5a3e86a47abf0015f541d  1410  .gitattributes
 9917839076992d43f0412548b148f32c21f80deeab65216078c781a24a1973ac  2687  .gitignore
-2e48a8e1f0044ce2adca96cd33675ef2d4783b6cf2f8b91d3789041b5aeef147  5996  CHANGELOG.md
+ada70a53ae33544e5ef6591ab84327fe5b9ce716c5adf26255f024a96fbca4b9  7633  .zenodo.json
+eddaff3d5104f6ad636df3e989dca77516dc42a11782612288ff904a88151505  7253  CHANGELOG.md
 26e7e7fe50525a07405670630b74bb46662d80aa835509cbb6be8b591eed132a  1115  LICENSE
-e75fc60873b7ca2ce7fd6340d6af306a876c8d6c3ccd628a82dca1de3a8ca7c3  17500  README.md
+c96e14dfd5cbb972497c342fd51bc79ef85ea67ee4f65bf652901e5a338590a0  18379  README.md
 3f2cb63d456f1aa04813f0614b0a99f1c1a8ddb4406dcc630e0cb8a89c63ede1  193287  figproofs/fig1_curve.png
 5ccf9a66017ee80deb9539616151f162aa84a5139357fb13d4b02f99d938a67c  287304  figproofs/fig2_holonomy.png
 bf591e546bc4d7980ebccfa343e55cea71ac59791bb2ede01ed609f846dbfb6b  219158  figproofs/fig3_focusing.png

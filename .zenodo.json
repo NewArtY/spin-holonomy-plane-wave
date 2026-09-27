@@ -1,0 +1,45 @@
+{
+  "upload_type": "software",
+  "title": "Code and data for the paper \"Net electron spin rotation in a plane-wave pulse: Holonomy set by the anomalous magnetic moment\"",
+  "creators": [
+    {
+      "name": "Akintsov, N. S.",
+      "orcid": "0000-0002-1040-1292",
+      "affiliation": "School of Artificial Intelligence and Computer Science, Nantong University"
+    },
+    {
+      "name": "Nevecheria, A. P.",
+      "orcid": "0000-0001-6736-4691",
+      "affiliation": "Department of Mathematical and Computer Methods, Kuban State University"
+    },
+    {
+      "name": "Andreev, S. N.",
+      "orcid": "0000-0003-3588-2894",
+      "affiliation": "Joint-Stock Company \"Center for Research and Development\", Moscow"
+    },
+    {
+      "name": "Qin, Qing-Hua",
+      "orcid": "0000-0003-0948-784X",
+      "affiliation": "Institute of Advanced Interdisciplinary Technology, Shenzhen MSU-BIT University"
+    }
+  ],
+  "description": "<p>This package contains the code and the numerical data behind the paper</p>\n<pre>&quot;Net electron spin rotation in a plane-wave pulse:\n Holonomy set by the anomalous magnetic moment&quot;\nN. S. Akintsov, A. P. Nevecheria, S. N. Andreev, Qing-Hua Qin,\nsubmitted to Physical Review D.</pre>\n<p>The paper shows that the net rotation of the spin of an electron crossing a plane-wave pulse of finite duration is a holonomy. After the exact g = 2 evolution is factored out, the spin obeys a Larmor precession in the rest-frame magnetic field of the wave with the factor g/2 replaced by the anomaly a_e = (g-2)/2. The net rotation depends only on the closed curve traced by the transverse vector potential, and at leading order it is a rotation about the propagation direction through -(1/2) a_e^2 A, where A is twice the signed area enclosed by that curve. It vanishes identically at g = 2 for every polarization, and for linear polarization at every g. It does not depend on the electron energy, the carrier frequency or the rate at which the curve is traced; the pulse length, the envelope shape and a chirp enter only through the curve, and at leading order only through A. Finite focusing restores a g-independent rotation at second order in the diffraction parameter eps = 1/(k w0). In classical radiation reaction of the Landau-Lifshitz form the energy-loss term leaves the anomalous holonomy unchanged; the Schott term adds a g-independent rotation, negligible at the parameters considered.</p>\n<p><strong>CONTENTS</strong></p>\n<pre>spin_magnitude.py     Plane-wave calculations: the g = 2 null test, the area\n                      law, scaling with energy and pulse parameters, the\n                      integrator-tolerance scan, and the longitudinal spin\n                      projection and axis tilt.\nholonomy_scan.py      Scan over pulse shapes, chirps, ellipticities and\n                      polarization gating behind Fig. 2, the flat-top\n                      resummation of its inset, and the angle-wrapping case.\nfocused_beam.py       Lax-Louisell-McKnight focused-beam fields, Maxwell\n                      residuals, and the eps^2 violation of the area law\n                      (Fig. 3).\nindep_check*.py       A second, independent implementation used for\n                      cross-checks.\nrr_ikt_check.py       Landau-Lifshitz radiation reaction with Fermi-Walker\n                      spin transport at inflated tau0, and the first-order\n                      integral of a field-dressed anomaly.\nmake_fig1.py          Fig. 1, the curve traced by the vector potential and its\n                      signed area, computed from the pulse formulas.\nmake_fig2.py,         Figs. 2, 3, S1, S2 from the JSON results.\nmake_fig3.py,\nmake_figS1.py,\nmake_figS2.py\nplotstyle.py          APS figure conventions; audit() fails before a file is\n                      written if any lettering or line falls below the APS\n                      minimum.\nreproduce_all.py      Single entry point; regenerates every number and every\n                      figure quoted in the paper, and checks the deposit.\n*.json, *.log         The results themselves. Every number quoted in the paper\n                      and in its Supplemental Material comes from these files.\nfigproofs/            PNG proofs of the five figures.\nlegacy/               Superseded scripts from an earlier stage of the project,\n                      kept for provenance. No result in the paper depends on\n                      them.</pre>\n<p><strong>REPRODUCTION</strong></p>\n<pre>pip install -r requirements.txt\npython reproduce_all.py           # full run, about 22 min on one core\npython reproduce_all.py --quick   # reduced grids, about 7 min\npython reproduce_all.py --verify  # check the tree against MANIFEST.sha256</pre>\n<p>Python 3.13 with NumPy, SciPy, Matplotlib and SymPy; pinned versions in requirements.txt. No GPU is required.</p>\n<p><strong>INTEGRITY</strong></p>\n<p>MANIFEST.sha256 lists checksums for all deposited files. Left out are the trees this package generates (__pycache__/, quickrun/) and the trees that belong to the person running it rather than to the deposit: a virtual environment, an IDE project directory, a version-control database. The checksums are taken over raw bytes; .gitattributes stops git from converting line endings, so this archive and any clone of the repository hold exactly the deposited bytes.</p>\n<p><strong>SCOPE</strong></p>\n<p>The package reproduces the figures, tables and quoted numbers of the paper. Radiation reaction is integrated only as a classical check at inflated tau0, for a plane wave; quantum recoil is not simulated. The package does not use exact nonparaxial fields and performs no averaging over the focal volume or over beam parameters. Sections VII and VIII of the paper state what each of these omissions leaves open.</p>\n<p><strong>CHANGES IN v1.1.0</strong></p>\n<p>New Fig. 1 (make_fig1.py); figure scripts renumbered to follow the revised article (former make_fig1.py -&gt; make_fig2.py, former make_fig2.py -&gt; make_fig3.py); Fig. 2 relabeled and given a lower panel with the relative departure from the area law; Fig. 3 redrawn relative to the plane-wave signal; new rr_ikt_check.py (radiation reaction and dressed anomaly); documentation updated. No result file of v1.0.1 changed. New .gitattributes: the archives of v1.0.0 and v1.0.1, built from the repository, hold LF line endings where MANIFEST.sha256 expects CRLF, so their --verify fails although their content is identical; from v1.1.0 the check passes on the archive and on a clone. Details in CHANGELOG.md.</p>\n<p><strong>LICENSE</strong></p>\n<p>MIT.</p>",
+  "access_right": "open",
+  "license": "mit",
+  "keywords": [
+    "spin dynamics",
+    "Thomas-BMT equation",
+    "anomalous magnetic moment",
+    "plane-wave pulse",
+    "holonomy",
+    "geometric phase",
+    "Volkov solution",
+    "strong-field laser physics",
+    "electron polarization",
+    "optical helicity",
+    "focused laser beam",
+    "reproducible research"
+  ],
+  "language": "eng",
+  "notes": "This work was partially supported by the State Assignment of the Ministry of Science and Higher Education of the Russian Federation (Project No. FZEN-2023-0006), the Nantong Science and Technology Plan Project (Grant Nos. JC2020137 and JC2020138), the Key Research and Development Program of Jiangsu Province of China (Grant No. BE2021013-1), the Natural Science Foundation of Jiangsu Province (Grant No. BK20201438), and in part by the Natural Science Research Project of Jiangsu Provincial Institutions of Higher Education (Grant Nos. 20KJA510002 and 20KJB510010)."
+}

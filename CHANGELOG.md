@@ -4,7 +4,7 @@ All notable changes to this deposit. Versions follow the Zenodo releases; the
 concept DOI [10.5281/zenodo.21758393](https://doi.org/10.5281/zenodo.21758393)
 always resolves to the latest one.
 
-## v1.1.0 — unreleased (prepared 2026-09-26)
+## v1.1.0 — 2026-09-27
 
 Figures, documentation and one new check for the revised article, now under
 consideration at **Physical Review D**. **No earlier computed result changed**:
@@ -66,6 +66,23 @@ only new result files are `rr_ikt_check.json` and `rr_ikt_check.log`.
   III G, VII, S7).
 * All five figures redrawn with the pinned environment of `requirements.txt`
   (Matplotlib 3.10.9).
+* **New `.gitattributes`: a clone of the repository now passes `--verify` on
+  every platform.** The manifest digests are taken over raw bytes, and most
+  results carry CRLF line endings from the Windows machine they were computed
+  on, the others LF. Git stored all of them with LF and converted on checkout
+  according to the local `core.autocrlf`, so a clone of v1.0.0/v1.0.1 failed
+  `--verify` on every platform (without conversion the CRLF files differ, with
+  it the LF files do). The Zenodo archives of v1.0.0 and v1.0.1 are GitHub's
+  archives of those tags and fail in the same way (37 files, all differing
+  only in line endings). `* -text` turns every conversion off; the repository now stores each file exactly as
+  deposited. No file changed its content or its bytes; the result files keep
+  the digests they had in v1.0.1.
+* **New `.zenodo.json`.** The Zenodo records of v1.0.0 and v1.0.1 were created
+  from the GitHub releases without it and list the repository owner as the only
+  creator. The file gives Zenodo the title, the four authors with ORCID and
+  affiliation, the description, keywords, licence and the funding statement
+  (as a note) for this and later releases. Its description names the changes
+  of v1.1.0 and has to be updated with each release.
 * `MANIFEST.sha256` regenerated.
 
 ## v1.0.1 — 2026-08-02

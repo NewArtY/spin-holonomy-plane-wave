@@ -62,6 +62,8 @@ code/
   README.md                 this file
   LICENSE                   MIT (see "Licence" below)
   MANIFEST.sha256           integrity manifest; see "Checking the deposit"
+  .gitattributes            stops git from converting line endings (same section)
+  .zenodo.json              metadata Zenodo reads when it archives a GitHub release
   requirements.txt          exact package versions used
   reproduce_all.py          ONE ENTRY POINT: recompute everything, redraw everything
 
@@ -190,9 +192,19 @@ to the deposit — a virtual environment, an IDE project directory, a
 version-control database. So `.venv/` inside `code/`, which is where most IDEs
 put one by default, does not make `--verify` fail.
 `--verify` reports every file that is changed, missing or unexpected, and exits
-nonzero if any are. Run it after downloading the archive and before running
-anything: it is the only way to tell a truncated or edited copy from the
-deposited one.
+nonzero if any are. Run it after downloading the archive or cloning the
+repository and before running anything: it is the only way to tell a truncated
+or edited copy from the deposited one.
+
+The digests are taken over the raw bytes, and the files keep the line endings
+they were written with (CRLF for most results, which were computed on Windows;
+LF for the rest). `.gitattributes` switches off every line-ending conversion
+in git, so a clone holds the deposited bytes on any operating system and
+whatever `core.autocrlf` is set to. The v1.0.0 and v1.0.1 tags lack that file:
+their clones, and their Zenodo archives, which GitHub built from the tags, fail
+`--verify` although they differ from the deposit only in line endings. A
+result recomputed on Linux or macOS is written with LF and therefore differs
+from the deposited file in its bytes, not in its numbers.
 
 ## Measured run times
 

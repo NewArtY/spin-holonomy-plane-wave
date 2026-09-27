@@ -1,0 +1,31 @@
+# ===========================================================================
+#  Computational package for
+#  "Net electron spin rotation in a plane-wave pulse:
+#   Holonomy set by the anomalous magnetic moment"
+#
+#  READ BEFORE CHANGING
+#  --------------------
+#  MANIFEST.sha256 records the SHA-256 digest of every deposited file byte for
+#  byte, and `python reproduce_all.py --verify` checks a copy against it.  The
+#  files keep the line endings they were written with: most results and
+#  several sources were written on Windows (CRLF), the rest have LF.  The
+#  results are byte-identical to those of deposit v1.0.1.
+#
+#  If git were allowed to convert line endings (core.autocrlf, text=auto,
+#  eol=...), a clone would hold different bytes from the deposit on some
+#  platforms, and --verify would fail although no number had changed.  The
+#  rule below turns every conversion off, whatever the settings of the person
+#  cloning: git stores and checks out each file exactly as deposited.
+#
+#  Do not add text, eol or text=auto rules.  To change the line endings of a
+#  file on purpose, change the file itself, then run
+#  `python reproduce_all.py --manifest`.
+# ===========================================================================
+
+# No line-ending conversion, for any file.
+*        -text
+
+# Images and documents: also no textual diff or merge.
+*.png    binary
+*.pdf    binary
+*.eps    binary
