@@ -60,6 +60,10 @@ only new result files are `rr_ikt_check.json` and `rr_ikt_check.log`.
   Review A to Physical Review D; figure numbers updated; the README's pointer to
   a nonexistent "Sec. S3.7" for stage `t4` replaced by what `t4` actually
   checks; the note on the independent implementation now points to Sec. S4.1.
+  The README's scope section no longer says that no radiation reaction is
+  integrated: `rr_ikt_check.py` integrates it (classically, at inflated
+  `tau0`); section pointers of `rr_ikt_check.py` follow the article (Secs.
+  III G, VII, S7).
 * All five figures redrawn with the pinned environment of `requirements.txt`
   (Matplotlib 3.10.9).
 * `MANIFEST.sha256` regenerated.

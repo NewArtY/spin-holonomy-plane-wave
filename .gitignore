@@ -9,7 +9,7 @@
 #
 #      *.json          numerical results quoted in the paper
 #      *.log           run records that accompany them
-#      figproofs/      raster proofs of the four figures
+#      figproofs/      raster proofs of the five figures
 #      MANIFEST.sha256 checksums covering all of the above
 #
 #  All of these are listed in MANIFEST.sha256 and are checked by

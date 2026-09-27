@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 r"""
-rr_ikt_check.py -- two estimates of Sec. VII and Sec. S7 of
+rr_ikt_check.py -- two checks behind Secs. III G, VII and S7 of
 "Net electron spin rotation in a plane-wave pulse: Holonomy set by the
 anomalous magnetic moment" (Physical Review D).
 

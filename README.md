@@ -75,7 +75,7 @@ code/
   indep_check4.py             "         "                 T5, reparameterisation
   indep_check_all.py        driver: runs the four above, writes JSON + log
   rr_ikt_check.py           radiation reaction (Landau-Lifshitz) and the
-                            dressed-anomaly bound, Sec. VII and Sec. S7
+                            dressed-anomaly bound, Secs. III G, VII and S7
 
   plotstyle.py              APS figure conventions shared by the five make_fig*
   make_fig1.py              -> manuscript/fig1_curve.pdf, .eps     (no input data)
@@ -112,7 +112,7 @@ code/
 | `focused_beam.py --stages cep,cepscan,a0big` | stages `cep`, `cepscan`, `a0big` | **FIG. S2**, Sec. S5.6 |
 | `focused_beam.py --stages conv,order,scans,window` | remaining stages | convergence, field-model systematics, TABLE S8 |
 | `indep_check_all.py` | `indep_check.json`, `indep_check.log` | the second, independent implementation (Sec. S4.1 and the covariant cross-checks of Sec. S2.3 and TABLE S4) |
-| `rr_ikt_check.py` | `rr_ikt_check.json`, `rr_ikt_check.log` | **Sec. S7**: the Landau-Lifshitz radiation-reaction check (leading and Schott terms at inflated `tau0`; Schott rotation against `-(1/2)(tau0 kappa)^2 A'` at `kappa` = 1 and 3) and the dressed-anomaly integral for pulses of 0.5-4 cycles, maximized over the CEP; quoted in Secs. IV B and VII |
+| `rr_ikt_check.py` | `rr_ikt_check.json`, `rr_ikt_check.log` | **Sec. S7**: the Landau-Lifshitz radiation-reaction check (leading and Schott terms at inflated `tau0`; Schott rotation against `-(1/2)(tau0 kappa)^2 A'` at `kappa` = 1 and 3) and the dressed-anomaly integral for pulses of 0.5-4 cycles, maximized over the CEP; quoted in Secs. III G and VII |
 | `make_fig1.py` | `../manuscript/fig1_curve.*`, `figproofs/fig1_curve.png` | **FIG. 1**, computed from the pulse formulas; checks the signed area three ways before drawing |
 | `make_fig2.py` … `make_figS2.py` | `../manuscript/fig*.pdf`, `fig*.eps`, `figproofs/*.png` | FIG. 2, FIG. 3, FIG. S1, FIG. S2 |
 
@@ -266,14 +266,16 @@ choice is the authors'.**
 ## Scope, and what this code does not claim
 
 The plane-wave part is exact within its stated model: an exact plane wave, the
-classical T-BMT equation with an anomalous moment, no radiation reaction, no
-photon emission, no Stern–Gerlach force, no electric dipole moment. The focused
+classical T-BMT equation with an anomalous moment, no photon emission, no Stern–Gerlach force, no electric dipole moment. The focused
 part uses a Lax–Louisell–McKnight expansion carried to third order in `eps`,
 whose Maxwell residuals are measured and reported in TABLE S6; the amplitudes
 extracted from it carry the systematic error quantified in Sec. S5.7, while the
 `eps^2` exponent does not. The applicability estimates of stage `t5` are
-analytic scalings taken from the review literature — no radiation is simulated
-anywhere in this repository.
+analytic scalings taken from the review literature — no photon emission is
+simulated anywhere in this repository. Classical radiation reaction enters only
+through `rr_ikt_check.py`, a plane-wave check at `tau0` inflated by several
+orders of magnitude; every other script integrates the T-BMT equation without
+it.
 
 Three limits of the deposited numbers are stated in the code and are repeated
 here because they are easy to overread:
